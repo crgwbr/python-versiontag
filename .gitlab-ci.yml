@@ -1,0 +1,13 @@
+image: python:latest
+
+before_script:
+  - pip install -r requirements.txt
+
+stages:
+  - build
+  - test
+
+run_unittests:
+  stage: test
+  script:
+    - python -m unittest discover
