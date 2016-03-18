@@ -15,6 +15,8 @@ class VersionTagTest(unittest.TestCase):
     def setUp(self):
         self.repo_dir = tempfile.TemporaryDirectory()
         os.chdir(self.repo_dir.name)
+        silent_call('git', 'config', 'user.email', 'travis@example.com')
+        silent_call('git', 'config', 'user.name', 'Travis von Builder')
 
     def tearDown(self):
         self.repo_dir.cleanup()
