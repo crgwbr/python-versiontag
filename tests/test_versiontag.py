@@ -15,12 +15,13 @@ class VersionTagTest(unittest.TestCase):
     def setUp(self):
         self.repo_dir = tempfile.TemporaryDirectory()
         os.chdir(self.repo_dir.name)
-        silent_call('git', 'config', 'user.email', 'travis@example.com')
-        silent_call('git', 'config', 'user.name', 'Travis von Builder')
 
     def tearDown(self):
         self.repo_dir.cleanup()
 
+    def _set_author(self):
+        silent_call('git', 'config', 'user.email', 'travis@example.com')
+        silent_call('git', 'config', 'user.name', 'Travis von Builder')
 
     def test_no_repo(self):
         """No repo returns default version"""
@@ -30,12 +31,14 @@ class VersionTagTest(unittest.TestCase):
     def test_no_commits(self):
         """No tags returns default version"""
         silent_call('git', 'init')
+        self._set_author()
         self.assertEqual(versiontag.get_version(), 'r0.0.0')
         self.assertEqual(versiontag.get_version(pypi=True), '0.0.0')
 
     def test_head_is_tagged(self):
         """Should return most recent tag"""
         silent_call('git', 'init')
+        self._set_author()
         silent_call('git', 'commit', '--allow-empty', '-m', 'Initial Commit')
         silent_call('git', 'tag', 'r1.2.3')
         self.assertEqual(versiontag.get_version(), 'r1.2.3')
@@ -44,6 +47,7 @@ class VersionTagTest(unittest.TestCase):
     def test_head_is_post_release(self):
         """Subsequent commits show as post releases"""
         silent_call('git', 'init')
+        self._set_author()
         silent_call('git', 'commit', '--allow-empty', '-m', 'Initial Commit')
         silent_call('git', 'tag', 'r1.2.3')
         silent_call('git', 'commit', '--allow-empty', '-m', 'another commit')
@@ -61,6 +65,7 @@ class VersionTagTest(unittest.TestCase):
     def test_caching_with_removed_git_folder(self):
         """Caching continues to return release even if git repository disappears"""
         silent_call('git', 'init')
+        self._set_author()
         silent_call('git', 'commit', '--allow-empty', '-m', 'Initial Commit')
         silent_call('git', 'tag', 'r1.2.3')
 
