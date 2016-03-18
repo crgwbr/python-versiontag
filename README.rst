@@ -28,17 +28,20 @@ How?
 
 Install python-versiontag using pip.
 
-::
+.. code:: bash
+
     pip install versiontag
 
 Add version.txt to your .gitignore file.
 
-::
+.. code:: bash
+
     echo "version.txt" >> .gitignore
 
 Add versiontag to your package's setup.py file.
 
-::
+.. code:: python
+
     from versiontag import get_version, cache_git_tag
 
     # This caches for version in version.txt so that it is still accessible if
@@ -49,10 +52,11 @@ Add versiontag to your package's setup.py file.
           version=get_version(pypi=True),
     ...
 
+
 Use versiontag where ever you want to access the version number.
 
-::
+.. code:: python
+
     >>> from versiontag import get_version
     >>> print( get_version() )
     'r1.2.3'
-
