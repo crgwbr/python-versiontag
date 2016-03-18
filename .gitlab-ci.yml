@@ -1,9 +1,0 @@
-image: python:latest
-
-stages:
-  - test
-
-run_unittests:
-  stage: test
-  script:
-    - python -m unittest discover
