@@ -8,7 +8,7 @@ import versiontag
 
 def silent_call(*args):
     with open(os.devnull, 'wb') as devnull:
-        subprocess.check_call(args, stdout=devnull, stderr=devnull)
+        subprocess.check_call(args)
 
 
 class VersionTagTest(unittest.TestCase):
