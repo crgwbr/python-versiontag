@@ -1,9 +1,11 @@
 import os
 import subprocess
 import re
+import logging
 
 
 __default_version__ = 'r0.0.0'
+logger = logging.getLogger(__name__)
 
 
 def __get_git_tag():
@@ -19,13 +21,17 @@ def __get_cache_file():
     return os.path.join(os.getcwd(), 'version.txt')
 
 
+def __open_cache_file(mode):
+    return open(__get_cache_file(), mode)
+
+
 def cache_git_tag():
     try:
         version = __get_git_tag()
+        with __open_cache_file('w') as vf:
+            vf.write(version)
     except:
         version = __default_version__
-    with open(__get_cache_file(), 'w') as vf:
-        vf.write(version)
     return version
 
 
@@ -33,7 +39,7 @@ def get_version(pypi=False):
     version = __default_version__
 
     try:
-        with open(__get_cache_file(), 'r') as vf:
+        with __open_cache_file('r') as vf:
             version = vf.read().strip()
     except:
         pass
@@ -42,6 +48,9 @@ def get_version(pypi=False):
         version = __get_git_tag()
     except:
         pass
+
+    if version == __default_version__:
+        logger.warning("versiontag could not determine package version using cwd %s. Returning default: %s" % (os.getcwd(), __default_version__))
 
     if pypi:
         # Convert to pypi valid version:

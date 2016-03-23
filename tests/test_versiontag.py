@@ -2,22 +2,25 @@ import subprocess
 import tempfile
 import unittest
 import os
+import logging
 
 import versiontag
 
 
 def silent_call(*args):
     with open(os.devnull, 'wb') as devnull:
-        subprocess.check_call(args)
+        subprocess.check_call(args, stdout=devnull, stderr=devnull)
 
 
 class VersionTagTest(unittest.TestCase):
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self.repo_dir = tempfile.TemporaryDirectory()
         os.chdir(self.repo_dir.name)
 
     def tearDown(self):
         self.repo_dir.cleanup()
+        logging.disable(logging.NOTSET)
 
     def _set_author(self):
         silent_call('git', 'config', 'user.email', 'travis@example.com')
