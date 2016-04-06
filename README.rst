@@ -7,8 +7,8 @@ python-versiontag
 .. image:: https://img.shields.io/pypi/dm/versiontag.svg
         :target: https://pypi.python.org/pypi/versiontag
 
-.. image:: https://travis-ci.org/crgwbr/python-versiontag.svg
-    :target: https://travis-ci.org/crgwbr/python-versiontag
+.. image:: https://travis-ci.org/thelabnyc/python-versiontag.svg
+    :target: https://travis-ci.org/thelabnyc/python-versiontag
 
 What?
 -----
