@@ -1,14 +1,7 @@
 python-versiontag
 =============================
 
-.. image:: https://img.shields.io/pypi/v/versiontag.svg
-    :target: https://pypi.python.org/pypi/versiontag
-
-.. image:: https://img.shields.io/pypi/dm/versiontag.svg
-        :target: https://pypi.python.org/pypi/versiontag
-
-.. image:: https://travis-ci.org/thelabnyc/python-versiontag.svg
-    :target: https://travis-ci.org/thelabnyc/python-versiontag
+|  |license| |kit| |format| |downloads| |travisci|
 
 What?
 -----
@@ -60,3 +53,16 @@ Use versiontag where ever you want to access the version number.
     >>> from versiontag import get_version
     >>> print( get_version() )
     'r1.2.3'
+
+
+
+.. |license| image:: https://img.shields.io/pypi/l/versiontag.svg
+    :target: https://pypi.python.org/pypi/versiontag
+.. |kit| image:: https://badge.fury.io/py/versiontag.svg
+    :target: https://pypi.python.org/pypi/versiontag
+.. |format| image:: https://img.shields.io/pypi/format/versiontag.svg
+    :target: https://pypi.python.org/pypi/versiontag
+.. |downloads| image:: https://img.shields.io/pypi/dm/versiontag.svg?maxAge=2592000
+    :target: https://pypi.python.org/pypi/versiontag
+.. |travisci| image:: https://travis-ci.org/thelabnyc/python-versiontag.svg
+    :target: https://travis-ci.org/thelabnyc/python-versiontag

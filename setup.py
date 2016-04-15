@@ -36,5 +36,5 @@ setup(
     author_email='crgwbr@gmail.com',
     url='https://github.com/thelabnyc/python-versiontag',
     packages=packages,
-    license='LICENSE.md'
+    license='ISC'
 )
