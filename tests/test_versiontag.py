@@ -55,11 +55,11 @@ class VersionTagTest(unittest.TestCase):
         silent_call('git', 'tag', 'r1.2.3')
         silent_call('git', 'commit', '--allow-empty', '-m', 'another commit')
         self.assertTrue( versiontag.get_version().startswith('r1.2.3-1-') )
-        self.assertEqual(versiontag.get_version(pypi=True), '1.2.3-1')
+        self.assertEqual(versiontag.get_version(pypi=True), '1.2.3.post1')
 
         silent_call('git', 'commit', '--allow-empty', '-m', 'another commit')
         self.assertTrue(versiontag.get_version().startswith('r1.2.3-2-'))
-        self.assertEqual(versiontag.get_version(pypi=True), '1.2.3-2')
+        self.assertEqual(versiontag.get_version(pypi=True), '1.2.3.post2')
 
         silent_call('git', 'tag', 'r1.2.4')
         self.assertTrue( versiontag.get_version().startswith('r1.2.4') )
@@ -87,3 +87,19 @@ class VersionTagTest(unittest.TestCase):
 
         self.assertEqual(versiontag.get_version(), 'r0.0.0')
         self.assertEqual(versiontag.get_version(pypi=True), '0.0.0')
+
+    def test_pypi_normalize(self):
+        # Final releases
+        self.assertEqual(versiontag.convert_to_pypi_version('r1.2.3'), '1.2.3')
+
+        # Post releases
+        self.assertEqual(versiontag.convert_to_pypi_version('r1.2.3-12-abcdef'), '1.2.3.post12')
+
+        # Pre-releases
+        self.assertEqual(versiontag.convert_to_pypi_version('r1.2.3-a1'), '1.2.3a1')
+        self.assertEqual(versiontag.convert_to_pypi_version('r1.2.3-b1'), '1.2.3b1')
+        self.assertEqual(versiontag.convert_to_pypi_version('r1.2.3-rc1'), '1.2.3rc1')
+
+        # Dev releases
+        self.assertEqual(versiontag.convert_to_pypi_version('r1.2.3-dev3'), '1.2.3.dev3')
+        self.assertEqual(versiontag.convert_to_pypi_version('r1.2.3-a1-dev3'), '1.2.3a1.dev3')
