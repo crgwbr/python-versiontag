@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+1.1.1
+------------------
+- Add Sphinx Documentation
+
 1.1.0
 ------------------
 - Add support for pre-releases and development releases according to `PEP-440 <https://www.python.org/dev/peps/pep-0440/>`_.
