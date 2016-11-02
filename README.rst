@@ -4,7 +4,6 @@ Versiontag
 Python project versioning for lazy people
 -----------------------------------------
 
-
 |  |license| |kit| |format| |downloads| |travisci|
 
 .. |license| image:: https://img.shields.io/pypi/l/versiontag.svg
@@ -17,7 +16,6 @@ Python project versioning for lazy people
     :target: https://pypi.python.org/pypi/versiontag
 .. |travisci| image:: https://travis-ci.org/thelabnyc/python-versiontag.svg
     :target: https://travis-ci.org/thelabnyc/python-versiontag
-
 
 
 What's versiontag?
@@ -34,3 +32,5 @@ Version numbers are all too often duplicated among setup.py, git tags, and
 other sources of truth. This library makes it possible to consolidate on git
 tags as a single source of truth regarding version numbers. That decreases the
 likely hood of making errors when publishing new package versions.
+
+**Full Documentation**: https://python-versiontag.readthedocs.io
