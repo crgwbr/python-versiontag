@@ -12,4 +12,9 @@ addons:
     packages:
       - git
 
-script: python -m unittest discover
+before_script:
+  - sudo pip install flake8
+
+script:
+  - flake8
+  - python -m unittest discover

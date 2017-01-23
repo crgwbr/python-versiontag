@@ -4,13 +4,17 @@ import os.path
 from setuptools import setup, find_packages
 from versiontag import get_version, cache_git_tag
 
+
 packages = find_packages()
+
 
 def fpath(name):
     return os.path.join(os.path.dirname(__file__), name)
 
+
 def read(fname):
     return codecs.open(fpath(fname), encoding='utf-8').read()
+
 
 cache_git_tag()
 

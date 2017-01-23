@@ -1,9 +1,8 @@
 from __future__ import print_function
-
+from tempfile import mkdtemp
 import warnings as _warnings
 import os as _os
-
-from tempfile import mkdtemp
+import sys as _sys
 
 
 class TemporaryDirectory(object):
@@ -20,7 +19,7 @@ class TemporaryDirectory(object):
 
     def __init__(self, suffix="", prefix="tmp", dir=None):
         self._closed = False
-        self.name = None # Handle mkdtemp raising an exception
+        self.name = None  # Handle mkdtemp raising an exception
         self.name = mkdtemp(suffix, prefix, dir)
 
     def __repr__(self):
@@ -39,13 +38,11 @@ class TemporaryDirectory(object):
                 # up due to missing globals
                 if "None" not in str(ex):
                     raise
-                print("ERROR: {!r} while cleaning up {!r}".format(ex, self,),
-                      file=_sys.stderr)
+                print("ERROR: {!r} while cleaning up {!r}".format(ex, self,), file=_sys.stderr)
                 return
             self._closed = True
             if _warn:
-                self._warn("Implicitly cleaning up {!r}".format(self),
-                           ResourceWarning)
+                self._warn("Implicitly cleaning up {!r}".format(self), Warning)
 
     def __exit__(self, exc, value, tb):
         self.cleanup()
