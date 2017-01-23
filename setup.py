@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 import codecs
 import os.path
-from setuptools import setup
+from setuptools import setup, find_packages
 from versiontag import get_version, cache_git_tag
 
-packages = [
-    'versiontag',
-]
+packages = find_packages()
 
 def fpath(name):
     return os.path.join(os.path.dirname(__file__), name)
@@ -18,8 +16,8 @@ cache_git_tag()
 
 setup(
     name='versiontag',
-    version=get_version(pypi=True),
     description='Simple git tag based version numbers',
+    version=get_version(pypi=True),
     long_description=read(fpath('README.rst')),
     classifiers=[
         'Development Status :: 5 - Production/Stable',

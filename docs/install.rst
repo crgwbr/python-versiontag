@@ -5,7 +5,7 @@ Dependencies
 ------------
 
 Versiontag does not require any python libraries apart from the standard
-library. It does, however, require the ``git`` be installed and executable from
+library. It does, however, require `git <https://git-scm.com/>`_ be installed and executable from
 the system path.
 
 
@@ -30,20 +30,33 @@ Add versiontag to your package's setup.py file.
 
 .. code:: python
 
+    from setuptools import setup, Distribution
+
+    # Make sure versiontag exists before going any further. This won't actually install
+    # the package. It will just download the egg file into `.eggs` so that it can be used
+    # henceforth in setup.py.
+    Distribution().fetch_build_eggs('versiontag')
+
+    # Import versiontag components
     from versiontag import get_version, cache_git_tag
 
     # This caches for version in version.txt so that it is still accessible if
     # the .git folder disappears, for example, after the slug is built on Heroku.
     cache_git_tag()
 
-    setup_requires = [
-        'versiontag>=1.1.0',
+    # If you want to use versiontag anywhere outside of the setup.py script, you should
+    # also add it to `install_requires`. This makes sure to actually install it, instead of
+    # just downloading the egg.
+    install_requires = [
+        …
+        'versiontag>=1.1.1',
+        …
     ]
 
-    setup(name='My Package',
-          version=get_version(pypi=True),
-          setup_requires=setup_requires)
-    ...
+    # Do all your normal setup.py stuff.
+    setup(name='my-awesome-package',
+          version=get_version(pypi=True))
+    …
 
 
 Usage
@@ -66,3 +79,5 @@ from inside your project.
     >>> from versiontag import get_version
     >>> print( get_version() )
     'r1.2.3'
+    >>> print( get_version(pypi=True) )
+    '1.2.3'
