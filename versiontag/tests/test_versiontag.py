@@ -1,8 +1,12 @@
 import subprocess
-import tempfile
 import unittest
 import os
 import logging
+
+try:
+    from tempfile import TemporaryDirectory
+except ImportError:
+    from .utils import TemporaryDirectory
 
 import versiontag
 
@@ -15,21 +19,25 @@ def silent_call(*args):
 class VersionTagTest(unittest.TestCase):
     def setUp(self):
         logging.disable(logging.CRITICAL)
-        self.repo_dir = tempfile.TemporaryDirectory()
+        self.repo_dir = TemporaryDirectory()
         os.chdir(self.repo_dir.name)
+
 
     def tearDown(self):
         self.repo_dir.cleanup()
         logging.disable(logging.NOTSET)
 
+
     def _set_author(self):
         silent_call('git', 'config', 'user.email', 'travis@example.com')
         silent_call('git', 'config', 'user.name', 'Travis von Builder')
+
 
     def test_no_repo(self):
         """No repo returns default version"""
         self.assertEqual(versiontag.get_version(), 'r0.0.0')
         self.assertEqual(versiontag.get_version(pypi=True), '0.0.0')
+
 
     def test_no_commits(self):
         """No tags returns default version"""
@@ -37,6 +45,7 @@ class VersionTagTest(unittest.TestCase):
         self._set_author()
         self.assertEqual(versiontag.get_version(), 'r0.0.0')
         self.assertEqual(versiontag.get_version(pypi=True), '0.0.0')
+
 
     def test_head_is_tagged(self):
         """Should return most recent tag"""
@@ -46,6 +55,7 @@ class VersionTagTest(unittest.TestCase):
         silent_call('git', 'tag', 'r1.2.3')
         self.assertEqual(versiontag.get_version(), 'r1.2.3')
         self.assertEqual(versiontag.get_version(pypi=True), '1.2.3')
+
 
     def test_head_is_post_release(self):
         """Subsequent commits show as post releases"""
@@ -64,6 +74,7 @@ class VersionTagTest(unittest.TestCase):
         silent_call('git', 'tag', 'r1.2.4')
         self.assertTrue( versiontag.get_version().startswith('r1.2.4') )
         self.assertEqual(versiontag.get_version(pypi=True), '1.2.4')
+
 
     def test_caching_with_removed_git_folder(self):
         """Caching continues to return release even if git repository disappears"""
@@ -87,6 +98,7 @@ class VersionTagTest(unittest.TestCase):
 
         self.assertEqual(versiontag.get_version(), 'r0.0.0')
         self.assertEqual(versiontag.get_version(pypi=True), '0.0.0')
+
 
     def test_pypi_normalize(self):
         # Final releases
