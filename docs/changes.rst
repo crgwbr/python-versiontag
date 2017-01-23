@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+1.2.0
+------------------
+- Add support for Python 2.7
+- Change recommended installation method from ``setup_requires`` to directly calling ``setuptools.Distribution.fetch_build_eggs``.
+
 1.1.1
 ------------------
 - Add Sphinx Documentation
