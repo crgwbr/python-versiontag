@@ -53,7 +53,7 @@ def cache_git_tag():
         version = __get_git_tag()
         with __open_cache_file('w') as vf:
             vf.write(version)
-    except:
+    except Exception:
         version = __default_version__
     return version
 
@@ -121,12 +121,12 @@ def get_version(pypi=False):
     try:
         with __open_cache_file('r') as vf:
             version = vf.read().strip()
-    except:
+    except Exception:
         pass
 
     try:
         version = __get_git_tag()
-    except:
+    except Exception:
         pass
 
     if pypi:
