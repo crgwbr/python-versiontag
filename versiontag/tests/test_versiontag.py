@@ -57,6 +57,16 @@ class VersionTagTest(unittest.TestCase):
         self.assertEqual(versiontag.get_version(pypi=True), '1.2.3')
 
 
+    def test_head_is_tagged_in_date_format(self):
+        """Should return most recent tag"""
+        silent_call('git', 'init')
+        self._set_author()
+        silent_call('git', 'commit', '--allow-empty', '-m', 'Initial Commit')
+        silent_call('git', 'tag', 'r2018.01.04.0')
+        self.assertEqual(versiontag.get_version(), 'r2018.01.04.0')
+        self.assertEqual(versiontag.get_version(pypi=True), '2018.01.04.0')
+
+
     def test_head_is_post_release(self):
         """Subsequent commits show as post releases"""
         silent_call('git', 'init')
@@ -100,7 +110,7 @@ class VersionTagTest(unittest.TestCase):
         self.assertEqual(versiontag.get_version(pypi=True), '0.0.0')
 
 
-    def test_pypi_normalize(self):
+    def test_pypi_normalize_semver(self):
         # Final releases
         self.assertEqual(versiontag.convert_to_pypi_version('r1.2.3'), '1.2.3')
 
@@ -115,3 +125,20 @@ class VersionTagTest(unittest.TestCase):
         # Dev releases
         self.assertEqual(versiontag.convert_to_pypi_version('r1.2.3-dev3'), '1.2.3.dev3')
         self.assertEqual(versiontag.convert_to_pypi_version('r1.2.3-a1-dev3'), '1.2.3a1.dev3')
+
+
+    def test_pypi_normalize_dates(self):
+        # Final releases
+        self.assertEqual(versiontag.convert_to_pypi_version('r2018.01.04'), '2018.01.04')
+
+        # Post releases
+        self.assertEqual(versiontag.convert_to_pypi_version('r2018.01.04-12-abcdef'), '2018.01.04.post12')
+
+        # Pre-releases
+        self.assertEqual(versiontag.convert_to_pypi_version('r2018.01.04-a1'), '2018.01.04a1')
+        self.assertEqual(versiontag.convert_to_pypi_version('r2018.01.04-b1'), '2018.01.04b1')
+        self.assertEqual(versiontag.convert_to_pypi_version('r2018.01.04-rc1'), '2018.01.04rc1')
+
+        # Dev releases
+        self.assertEqual(versiontag.convert_to_pypi_version('r2018.01.04-dev3'), '2018.01.04.dev3')
+        self.assertEqual(versiontag.convert_to_pypi_version('r2018.01.04-a1-dev3'), '2018.01.04a1.dev3')
